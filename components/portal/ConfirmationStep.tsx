@@ -10,7 +10,7 @@ import {
 import type { MatterInfo } from "@/components/portal/MatterInformationStep";
 import type { ProductionSpecs, ServiceCategoryId } from "@/components/portal/ProductionSpecsStep";
 import type { SecureUploadData } from "@/components/portal/SecureFileUploadStep";
-import { uploadFileToNextcloud, createNextcloudShare } from "@/lib/nextcloud";
+import { uploadFileToDrive, createDriveShare } from "@/lib/google-drive";
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 
@@ -336,7 +336,7 @@ function SuccessScreen({ refNumber, matter, shareUrl, sharePassword, onStartNew 
               "Email confirmation sent to your address",
               "DSU team reviews job specs within 1 business hour",
               "Production begins — you will receive status updates",
-              "Completed files delivered via secure Nextcloud link",
+              "Completed files delivered via secure DSU share link",
             ].map((step, i) => (
               <li key={i} className="flex items-start gap-2.5 text-xs" style={{ color: "#94A3B8" }}>
                 <span className="flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold"
@@ -402,7 +402,7 @@ export function ConfirmationStep({ matter, specs, upload, onBack, onStartNew }: 
         const entry = upload.files[i];
         setPhase({ kind: "uploading", current: i + 1, total: upload.files.length, fileName: entry.file.name });
         try {
-          await uploadFileToNextcloud(entry.file, folder, () => {});
+          await uploadFileToDrive(entry.file, folder, () => {});
         } catch (err) {
           const msg = err instanceof Error ? err.message : "Upload failed";
           setError(`Failed to upload "${entry.file.name}": ${msg}. Please go back and retry.`);
@@ -417,7 +417,7 @@ export function ConfirmationStep({ matter, specs, upload, onBack, onStartNew }: 
     const summary = buildJobSummary(refNumber, matter, specs, upload);
     try {
       const summaryRes = await fetch(
-        `/api/nextcloud/upload?folder=${encodeURIComponent(folder)}&file=${encodeURIComponent(`job_summary_${refNumber}.json`)}`,
+        `/api/google-drive/upload?folder=${encodeURIComponent(folder)}&file=${encodeURIComponent(`job_summary_${refNumber}.json`)}`,
         { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(summary, null, 2) },
       );
       if (!summaryRes.ok) {
@@ -436,7 +436,7 @@ export function ConfirmationStep({ matter, specs, upload, onBack, onStartNew }: 
     let resolvedShareUrl: string = "Manual Link Pending";
     let resolvedPassword: string | undefined;
     try {
-      const result = await createNextcloudShare(`/${folder}`, upload.security);
+      const result = await createDriveShare(folder, upload.security);
       resolvedShareUrl = result.shareUrl;
       resolvedPassword = result.sharePassword;
     } catch (err) {
@@ -502,7 +502,7 @@ export function ConfirmationStep({ matter, specs, upload, onBack, onStartNew }: 
           </h2>
         </div>
         <p className="text-sm" style={{ color: "#64748B" }}>
-          Review your job details below. Submitting will send a notification to our team and upload your job ticket to the DSU Nextcloud server.
+          Review your job details below. Submitting will send a notification to our team and upload your job ticket to the DSU secure drive.
         </p>
       </div>
 

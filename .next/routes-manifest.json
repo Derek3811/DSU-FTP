@@ -1,0 +1,104 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/api/email/notify",
+      "regex": "^/api/email/notify(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/email/notify(?:/)?$"
+    },
+    {
+      "page": "/api/google-drive/oauth/authorize",
+      "regex": "^/api/google\\-drive/oauth/authorize(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/google\\-drive/oauth/authorize(?:/)?$"
+    },
+    {
+      "page": "/api/google-drive/oauth/callback",
+      "regex": "^/api/google\\-drive/oauth/callback(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/google\\-drive/oauth/callback(?:/)?$"
+    },
+    {
+      "page": "/api/google-drive/share",
+      "regex": "^/api/google\\-drive/share(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/google\\-drive/share(?:/)?$"
+    },
+    {
+      "page": "/api/google-drive/upload",
+      "regex": "^/api/google\\-drive/upload(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/google\\-drive/upload(?:/)?$"
+    },
+    {
+      "page": "/api/staff/auth",
+      "regex": "^/api/staff/auth(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/staff/auth(?:/)?$"
+    },
+    {
+      "page": "/staff",
+      "regex": "^/staff(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/staff(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

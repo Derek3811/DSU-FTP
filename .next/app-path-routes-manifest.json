@@ -1,0 +1,12 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/email/notify/route": "/api/email/notify",
+  "/api/google-drive/oauth/authorize/route": "/api/google-drive/oauth/authorize",
+  "/api/google-drive/oauth/callback/route": "/api/google-drive/oauth/callback",
+  "/api/google-drive/share/route": "/api/google-drive/share",
+  "/api/google-drive/upload/route": "/api/google-drive/upload",
+  "/api/staff/auth/route": "/api/staff/auth",
+  "/page": "/",
+  "/staff/page": "/staff"
+}

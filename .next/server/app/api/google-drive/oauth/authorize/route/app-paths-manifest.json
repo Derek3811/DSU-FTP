@@ -1,0 +1,3 @@
+{
+  "/api/google-drive/oauth/authorize/route": "app/api/google-drive/oauth/authorize/route.js"
+}

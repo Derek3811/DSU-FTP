@@ -16,7 +16,6 @@ import {
 import { ConfirmationStep } from '@/components/portal/ConfirmationStep';
 import { JobProgressChart } from '@/components/portal/JobProgressChart';
 import { StarfieldBackground } from '@/components/portal/StarfieldBackground';
-import { AINetworkAnimation } from '@/components/portal/AINetworkAnimation';
 
 const INITIAL_MATTER: MatterInfo = {
   caseMatterName: '',
@@ -105,9 +104,6 @@ export default function PortalPage() {
           </div>
 
           {/* Right: AI Network Animation - no container */}
-          <div className="p-6 sm:p-8 flex items-center justify-center">
-            <AINetworkAnimation />
-          </div>
         </div>
       </div>
 

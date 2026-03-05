@@ -1,0 +1,12 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/email/notify/route": "app-edge-has-no-entrypoint",
+  "/api/google-drive/oauth/authorize/route": "app/api/google-drive/oauth/authorize/route.js",
+  "/api/google-drive/oauth/callback/route": "app/api/google-drive/oauth/callback/route.js",
+  "/api/google-drive/share/route": "app/api/google-drive/share/route.js",
+  "/api/google-drive/upload/route": "app/api/google-drive/upload/route.js",
+  "/api/staff/auth/route": "app-edge-has-no-entrypoint",
+  "/page": "app/page.js",
+  "/staff/page": "app/staff/page.js"
+}

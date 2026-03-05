@@ -148,19 +148,86 @@ function StyledSelect({ id, value, onChange, options, placeholder, error }: {
   id: string; value: string; onChange: (v: string) => void;
   options: { value: string; label: string }[]; placeholder?: string; error?: string;
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectedLabel = options.find((o) => o.value === value)?.label || placeholder || "Select...";
+
   return (
     <div className="relative">
-      <select id={id} value={value} onChange={(e) => onChange(e.target.value)}
+      <button
+        type="button"
+        id={id}
+        onClick={() => setIsOpen(!isOpen)}
         aria-invalid={!!error}
-        style={{ ...inputBase, paddingRight: "2.25rem", cursor: "pointer", appearance: "none",
-          ...(error ? { borderColor: "#EF4444" } : {}) }}
+        style={{
+          ...inputBase,
+          paddingRight: "2.25rem",
+          cursor: "pointer",
+          textAlign: "left",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          ...(error ? { borderColor: "#EF4444" } : {}),
+          opacity: value ? 1 : 0.6,
+        }}
         onFocus={focusOn}
-        onBlur={(e) => focusOff(e, !!error)}
+        onBlur={(e) => {
+          focusOff(e, !!error);
+          // Close menu on blur
+          setTimeout(() => setIsOpen(false), 100);
+        }}
       >
-        {placeholder && <option value="" disabled>{placeholder}</option>}
-        {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-      </select>
-      <ChevronDownIcon className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "#94A3B8" }} />
+        <span>{selectedLabel}</span>
+      </button>
+      <ChevronDownIcon
+        className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4"
+        style={{ color: "#94A3B8", transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+      />
+      {isOpen && (
+        <div
+          className="absolute top-full left-0 right-0 mt-1 rounded-lg shadow-lg z-50 border"
+          style={{
+            background: "#1E293B",
+            borderColor: "#334155",
+            maxHeight: "200px",
+            overflowY: "auto",
+          }}
+        >
+          {options.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => {
+                onChange(option.value);
+                setIsOpen(false);
+              }}
+              style={{
+                width: "100%",
+                padding: "0.75rem 1rem",
+                textAlign: "left",
+                background: value === option.value ? "#FF7A00" : "transparent",
+                color: value === option.value ? "#07090F" : "#F1F5F9",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "0.875rem",
+                transition: "all 0.15s",
+                borderBottom: "1px solid rgba(255,255,255,0.06)",
+              }}
+              onMouseEnter={(e) => {
+                if (value !== option.value) {
+                  (e.target as HTMLElement).style.background = "rgba(255,255,255,0.1)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (value !== option.value) {
+                  (e.target as HTMLElement).style.background = "transparent";
+                }
+              }}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

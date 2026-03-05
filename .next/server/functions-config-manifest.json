@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "functions": {
+    "/api/email/notify": {},
+    "/api/google-drive/oauth/authorize": {},
+    "/api/google-drive/oauth/callback": {},
+    "/api/google-drive/share": {},
+    "/api/google-drive/upload": {},
+    "/api/staff/auth": {}
+  }
+}

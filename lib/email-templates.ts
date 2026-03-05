@@ -110,7 +110,7 @@ export function buildStaffEmailHtml(refNumber: string, summary: Record<string, u
               ${sectionHeader("Submission Metadata")}
               ${row("Submitted At", String(summary.submittedAt ?? "—"))}
               ${row("Portal", "DSU Secure Litigation Portal v2.0")}
-              ${shareUrl ? row("Nextcloud Share Link", `<a href="${shareUrl}" style="color:#2B6CB0;font-family:${MONO};font-size:12px;">${shareUrl}</a>`) : ""}
+              ${shareUrl ? row("Google Drive Share Link", `<a href="${shareUrl}" style="color:#2B6CB0;font-family:${MONO};font-size:12px;">${shareUrl}</a>`) : ""}
 
             </table>
           </td>
@@ -185,7 +185,7 @@ export function buildClientReceiptHtml(refNumber: string, summary: Record<string
               ${row("Service Requested", String(ps.serviceCategoryLabel ?? "—"))}
               ${row("Hard Deadline", m.hardDeadline ? m.hardDeadline.replace("T", " at ") : "—")}
               ${row("Files Received", String(st.fileCount ?? 0))}
-              ${shareUrl ? row("Secure Job Folder", `<a href="${shareUrl}" style="color:#2B6CB0;font-size:13px;">View your files on DSU Nextcloud</a>`) : ""}
+              ${shareUrl ? row("Secure Job Folder", `<a href="${shareUrl}" style="color:#2B6CB0;font-size:13px;">View your files on DSU secure drive (Google Drive)</a>`) : ""}
             </table>
           </td>
         </tr>
