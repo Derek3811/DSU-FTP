@@ -9,6 +9,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "googleapis": "^139.0.0",
     "@googleapis/drive": "^20.1.0",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-accordion": "1.2.12",
