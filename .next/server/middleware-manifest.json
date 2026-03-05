@@ -1,0 +1,68 @@
+{
+  "version": 3,
+  "middleware": {},
+  "sortedMiddleware": [],
+  "functions": {
+    "/api/email/notify/route": {
+      "files": [
+        "server/middleware-build-manifest.js",
+        "server/interception-route-rewrite-manifest.js",
+        "required-server-files.js",
+        "server/server-reference-manifest.js",
+        "server/app/api/email/notify/route_client-reference-manifest.js",
+        "server/edge/chunks/_next-internal_server_app_api_email_notify_route_actions_a71f59ea.js",
+        "server/edge/chunks/[root-of-the-server]__5616e233._.js",
+        "server/edge/chunks/[root-of-the-server]__a8f8c606._.js",
+        "server/edge/chunks/node_modules__pnpm_07574e66._.js",
+        "server/edge/chunks/81647_next_dist_esm_build_templates_edge-wrapper_065e90af.js"
+      ],
+      "name": "app/api/email/notify/route",
+      "page": "/api/email/notify/route",
+      "matchers": [
+        {
+          "regexp": "^/api/email/notify(?:/)?$",
+          "originalSource": "/api/email/notify"
+        }
+      ],
+      "wasm": [],
+      "assets": [],
+      "env": {
+        "__NEXT_BUILD_ID": "OcphvD7aVsYHzVPn6M9DD",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "DH12c2+raczhZSoegV6s1VjlKsQj6IZauRSpIClHNhA=",
+        "__NEXT_PREVIEW_MODE_ID": "56d42a20561082bf82c0debd62039573",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "095d6f38ca8a73c2e5a05f4900ed05cafaa9142de1eee5e0529c34a59da8460a",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "8425c9a1be7e3a1e06e4c82436b83c997c7b64ef9be1d1042c92f888f384f69a"
+      }
+    },
+    "/api/staff/auth/route": {
+      "files": [
+        "server/middleware-build-manifest.js",
+        "server/interception-route-rewrite-manifest.js",
+        "required-server-files.js",
+        "server/server-reference-manifest.js",
+        "server/app/api/staff/auth/route_client-reference-manifest.js",
+        "server/edge/chunks/_next-internal_server_app_api_staff_auth_route_actions_8476a26a.js",
+        "server/edge/chunks/[root-of-the-server]__e422c5b3._.js",
+        "server/edge/chunks/[root-of-the-server]__a8f8c606._.js",
+        "server/edge/chunks/81647_next_dist_esm_build_templates_edge-wrapper_4137665a.js"
+      ],
+      "name": "app/api/staff/auth/route",
+      "page": "/api/staff/auth/route",
+      "matchers": [
+        {
+          "regexp": "^/api/staff/auth(?:/)?$",
+          "originalSource": "/api/staff/auth"
+        }
+      ],
+      "wasm": [],
+      "assets": [],
+      "env": {
+        "__NEXT_BUILD_ID": "OcphvD7aVsYHzVPn6M9DD",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "DH12c2+raczhZSoegV6s1VjlKsQj6IZauRSpIClHNhA=",
+        "__NEXT_PREVIEW_MODE_ID": "56d42a20561082bf82c0debd62039573",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "095d6f38ca8a73c2e5a05f4900ed05cafaa9142de1eee5e0529c34a59da8460a",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "8425c9a1be7e3a1e06e4c82436b83c997c7b64ef9be1d1042c92f888f384f69a"
+      }
+    }
+  }
+}

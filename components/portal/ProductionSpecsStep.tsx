@@ -153,12 +153,14 @@ function StyledSelect({ id, value, onChange, options, placeholder, error }: {
       <select id={id} value={value} onChange={(e) => onChange(e.target.value)}
         aria-invalid={!!error}
         style={{ ...inputBase, paddingRight: "2.25rem", cursor: "pointer", appearance: "none",
-          ...(error ? { borderColor: "#EF4444" } : {}) }}
+          ...(error ? { borderColor: "#EF4444" } : {}),
+          colorScheme: "dark"
+        }}
         onFocus={focusOn}
         onBlur={(e) => focusOff(e, !!error)}
       >
         {placeholder && <option value="" disabled>{placeholder}</option>}
-        {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+        {options.map((o) => <option key={o.value} value={o.value} style={{ background: "#1E293B", color: "#F1F5F9" }}>{o.label}</option>)}
       </select>
       <ChevronDownIcon className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "#94A3B8" }} />
     </div>
