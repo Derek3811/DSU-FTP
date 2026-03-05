@@ -31,9 +31,12 @@ function focusOff(e: React.FocusEvent<HTMLInputElement>) {
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface UploadedFile {
-  id: string; file: File; progress: number;
+  id: string;
+  file: File;
+  progress: number;
   status: "pending" | "uploading" | "done" | "error";
   ncPath?: string;
+  driveFileId?: string;
 }
 
 interface ShareResult {
@@ -187,7 +190,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     setFiles((prev) => prev.map((f) => f.id === id ? { ...f, ...patch } : f));
   }
 
-  async function uploadFileToNextcloud(entry: UploadedFile, folder: string): Promise<string | null> {
+  async function uploadFileToDrive(entry: UploadedFile, folder: string): Promise<string | null> {
     updateFile(entry.id, { status: "uploading", progress: 10 });
 
     const fileBytes = await entry.file.arrayBuffer();
@@ -199,14 +202,19 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 
     try {
       const res = await fetch(
-        `/api/nextcloud/upload?folder=${encodeURIComponent(folder)}&file=${encodeURIComponent(entry.file.name)}`,
+        `/api/google-drive/upload?folder=${encodeURIComponent(folder)}&file=${encodeURIComponent(entry.file.name)}`,
         { method: "PUT", headers: { "Content-Type": entry.file.type || "application/octet-stream" }, body: fileBytes },
       );
       clearInterval(interval);
       if (res.ok) {
-        const data = await res.json() as { path?: string; ncPath?: string };
-        const path = data.ncPath ?? data.path ?? null;
-        updateFile(entry.id, { status: "done", progress: 100, ncPath: path ?? undefined });
+        const data = await res.json().catch(() => ({})) as { path?: string; driveFileId?: string };
+        const path = data.path ?? null;
+        updateFile(entry.id, {
+          status: "done",
+          progress: 100,
+          ncPath: path ?? undefined,
+          driveFileId: data.driveFileId ?? undefined,
+        });
         return path;
       }
       throw new Error(`HTTP ${res.status}`);
@@ -227,12 +235,13 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 
     for (const entry of files) {
       let ncPath = entry.ncPath;
-      if (!ncPath) ncPath = await uploadFileToNextcloud(entry, folder) ?? undefined;
+      if (!ncPath) ncPath = await uploadFileToDrive(entry, folder) ?? undefined;
       if (!ncPath) continue;
+      if (!entry.driveFileId) continue;
 
-      const shareRes = await fetch("/api/nextcloud/share", {
+      const shareRes = await fetch("/api/google-drive/share", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ path: `/${ncPath}`, password: sharePassword || undefined, expireDate: expireDate || undefined }),
+        body: JSON.stringify({ fileId: entry.driveFileId ?? undefined, expireDate: expireDate || undefined }),
       });
       if (shareRes.ok) {
         const data = await shareRes.json() as { shareUrl?: string; shareId?: string };
@@ -240,7 +249,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
       }
     }
 
-    if (newResults.length === 0) setSendError("No files were shared. Check the Nextcloud connection in Vercel logs.");
+    if (newResults.length === 0) setSendError("No files were shared. Check the Google Drive connection in the logs.");
     else setShareResults((prev) => [...newResults, ...prev]);
     setSending(false);
   }
@@ -298,7 +307,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
         <div className="mb-6">
           <h1 className="text-xl font-bold tracking-tight" style={{ color: NAVY }}>Send Files to Client</h1>
           <p className="text-sm mt-1" style={{ color: "#64748B" }}>
-            Upload completed production files and generate a secure Nextcloud share link for client delivery.
+            Upload completed production files and generate a secure Google Drive share link for client delivery.
           </p>
         </div>
 
