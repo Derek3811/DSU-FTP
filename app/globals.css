@@ -1,8 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@custom-variant dark (&:is(.dark *));
-
 :root {
   /* ── Brand: Midnight Black · Neon Orange #FF7A00 · White ── */
   --midnight:        #07090F;
