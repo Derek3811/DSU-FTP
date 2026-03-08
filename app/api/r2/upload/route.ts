@@ -33,10 +33,12 @@ export async function GET(req: NextRequest) {
       Bucket:      bucket,
       Key:         key,
       ContentType: contentType,
-      ChecksumAlgorithm: undefined, // Prevent x-amz-checksum-crc32 header
     });
 
-    const presignedUrl = await getSignedUrl(client, command, { expiresIn: 900 }); // 15 min
+    const presignedUrl = await getSignedUrl(client, command, { 
+      expiresIn: 900,
+      unhostedPayload: true, // Prevent SDK from adding checksum headers
+    }); // 15 min
 
     return NextResponse.json({ presignedUrl, key });
   } catch (err) {
