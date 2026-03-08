@@ -37,7 +37,8 @@ export async function GET(req: NextRequest) {
 
     const presignedUrl = await getSignedUrl(client, command, { 
       expiresIn: 900,
-      unhostedPayload: true, // Prevent SDK from adding checksum headers
+      unhostedPayload: true,
+      signableHeaders: new Set(['host', 'content-type']), // Strictly exclude checksum headers
     }); // 15 min
 
     return NextResponse.json({ presignedUrl, key });
