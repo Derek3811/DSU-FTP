@@ -10,7 +10,7 @@ import {
 import type { MatterInfo } from "@/components/portal/MatterInformationStep";
 import type { ProductionSpecs, ServiceCategoryId } from "@/components/portal/ProductionSpecsStep";
 import type { SecureUploadData } from "@/components/portal/SecureFileUploadStep";
-import { uploadFileToDrive, createDriveShare } from "@/lib/google-drive";
+import { uploadFileToR2, createR2Share } from "@/lib/r2-client";
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 
@@ -402,7 +402,7 @@ export function ConfirmationStep({ matter, specs, upload, onBack, onStartNew }: 
         const entry = upload.files[i];
         setPhase({ kind: "uploading", current: i + 1, total: upload.files.length, fileName: entry.file.name });
         try {
-          await uploadFileToDrive(entry.file, folder, () => {});
+          await uploadFileToR2(entry.file, folder, () => {});
         } catch (err) {
           const msg = err instanceof Error ? err.message : "Upload failed";
           setError(`Failed to upload "${entry.file.name}": ${msg}. Please go back and retry.`);
@@ -417,7 +417,7 @@ export function ConfirmationStep({ matter, specs, upload, onBack, onStartNew }: 
     const summary = buildJobSummary(refNumber, matter, specs, upload);
     try {
       const summaryRes = await fetch(
-        `/api/google-drive/upload?folder=${encodeURIComponent(folder)}&file=${encodeURIComponent(`job_summary_${refNumber}.json`)}`,
+        `/api/r2/upload?folder=${encodeURIComponent(folder)}&file=${encodeURIComponent(`job_summary_${refNumber}.json`)}`,
         { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(summary, null, 2) },
       );
       if (!summaryRes.ok) {
@@ -436,7 +436,7 @@ export function ConfirmationStep({ matter, specs, upload, onBack, onStartNew }: 
     let resolvedShareUrl: string = "Manual Link Pending";
     let resolvedPassword: string | undefined;
     try {
-      const result = await createDriveShare(folder, upload.security);
+      const result = await createR2Share(folder, upload.security);
       resolvedShareUrl = result.shareUrl;
       resolvedPassword = result.sharePassword;
     } catch (err) {
