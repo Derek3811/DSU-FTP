@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
 
 /**
  * handleUploadPresign
- * UPDATED: Added signableHeaders to prevent CORS/Signature issues with checksums.
+ * UPDATED: Strictly controlled signing to prevent 403 Forbidden errors.
  */
 async function handleUploadPresign(searchParams: URLSearchParams) {
   const folderParam = searchParams.get("folder")?.trim();
@@ -45,14 +45,17 @@ async function handleUploadPresign(searchParams: URLSearchParams) {
       Bucket: bucket,
       Key: key,
       ContentType: contentType,
+      // Ensure no checksums are added to the command itself
+      ChecksumAlgorithm: undefined,
     });
 
-    // Fix: Explicitly define signableHeaders. 
-    // This prevents the SDK from adding checksum headers to the signature 
-    // that the browser might not send correctly, causing a 403 or CORS error.
+    // Fix: Force the SDK to ONLY sign the 'host' and 'content-type' headers.
+    // This removes 'x-amz-checksum-crc32' and other SDK-specific parameters 
+    // from the signed URL query string, which prevents the 403 Forbidden error.
     const presignedUrl = await getSignedUrl(client, command, {
       expiresIn: 900,
       signableHeaders: new Set(["host", "content-type"]),
+      unhostedPayload: true,
     });
 
     return NextResponse.json({ presignedUrl, key });
