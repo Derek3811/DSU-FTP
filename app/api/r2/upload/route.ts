@@ -50,8 +50,8 @@ async function handleUploadPresign(searchParams: URLSearchParams) {
     });
 
     // Fix: Force the SDK to ONLY sign the 'host' and 'content-type' headers.
-    // This removes 'x-amz-checksum-crc32' and other SDK-specific parameters 
-    // from the signed URL query string, which prevents the 403 Forbidden error.
+    // Also using 'unhostedPayload: true' to prevent the SDK from appending 
+    // unwanted x-amz-checksum parameters to the URL query string.
     const presignedUrl = await getSignedUrl(client, command, {
       expiresIn: 900,
       signableHeaders: new Set(["host", "content-type"]),
@@ -116,8 +116,7 @@ export async function PUT(req: NextRequest) {
     const contentType = req.headers.get("Content-Type") ?? "application/octet-stream";
 
     const command = new PutObjectCommand({
-      Bucket: bucket,
-      Key: key,
+      Bucket: bucket, Key: key,
       Body: Buffer.from(body),
       ContentType: contentType,
     });
